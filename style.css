@@ -1,0 +1,312 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Envelope Styles */
+.envelope {
+    position: relative;
+    width: 400px;
+    height: 300px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    max-width: 90vw;
+}
+
+.envelope:hover {
+    transform: scale(1.05);
+}
+
+@media (hover: none) {
+    .envelope:hover {
+        transform: scale(1);
+    }
+}
+
+.envelope-front {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.envelope-body {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.envelope-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.1) 10px,
+        rgba(255, 255, 255, 0.1) 20px
+    );
+    border-radius: 0 0 10px 10px;
+}
+
+.envelope-top {
+    width: 0;
+    height: 0;
+    border-left: 200px solid transparent;
+    border-right: 200px solid transparent;
+    border-top: 150px solid #ff5252;
+    transform-origin: bottom;
+    transition: transform 0.8s ease;
+    position: relative;
+    z-index: 2;
+}
+
+@media (max-width: 600px) {
+    .envelope-top {
+        border-left-width: calc(50vw - 10px);
+        border-right-width: calc(50vw - 10px);
+        border-top-width: 112.5px;
+    }
+}
+
+.envelope.opened .envelope-top {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+/* Card Styles */
+.card {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    width: 350px;
+    height: 250px;
+    max-width: 85vw;
+    max-height: 60vh;
+    background: linear-gradient(135deg, #fff 0%, #ffeef0 100%);
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    opacity: 0;
+    transition: transform 0.8s ease, opacity 0.8s ease;
+    z-index: 3;
+}
+
+.envelope.opened .card {
+    transform: translateX(-50%) translateY(-20px);
+    opacity: 1;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: clamp(15px, 4vw, 30px);
+}
+
+.question {
+    font-size: clamp(18px, 5vw, 28px);
+    color: #d63384;
+    text-align: center;
+    font-weight: bold;
+    animation: fadeIn 1s ease 0.5s both;
+    padding: 0 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.buttons {
+    display: flex;
+    gap: clamp(10px, 3vw, 20px);
+    animation: fadeIn 1s ease 0.8s both;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn {
+    padding: clamp(12px, 3vw, 15px) clamp(30px, 8vw, 40px);
+    font-size: clamp(16px, 4vw, 18px);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    min-width: 100px;
+    touch-action: manipulation;
+}
+
+.btn-yes {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+}
+
+.btn-yes:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+}
+
+.btn-no {
+    background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+    color: white;
+}
+
+.btn-no:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(149, 165, 166, 0.4);
+}
+
+/* Flowers Animation */
+.flowers-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.flower {
+    position: absolute;
+    font-size: clamp(30px, 8vw, 40px);
+    animation: flowerExplode 2s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes flowerExplode {
+    0% {
+        transform: translate(0, 0) scale(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Sad Emoji */
+.sad-emoji {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: clamp(80px, 20vw, 120px);
+    z-index: 1001;
+    animation: sadAppear 0.5s ease forwards;
+    display: none;
+}
+
+.sad-emoji.show {
+    display: block;
+}
+
+@keyframes sadAppear {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .envelope {
+        width: min(300px, 85vw);
+        height: min(225px, 64vw);
+    }
+    
+    .envelope-body {
+        height: min(150px, 43vw);
+    }
+    
+    .card {
+        width: min(280px, 80vw);
+        height: min(200px, 57vw);
+        padding: clamp(15px, 4vw, 20px);
+    }
+    
+    .card-content {
+        gap: clamp(10px, 3vw, 20px);
+    }
+    
+    .buttons {
+        gap: 10px;
+    }
+    
+    .btn {
+        min-width: 90px;
+        padding: 12px 25px;
+    }
+}
+
+@media (max-width: 400px) {
+    .envelope {
+        width: min(280px, 90vw);
+        height: min(210px, 68vw);
+    }
+    
+    .card {
+        width: min(260px, 85vw);
+        height: min(180px, 59vw);
+        padding: 15px;
+    }
+    
+    .buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+

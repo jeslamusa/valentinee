@@ -6,12 +6,77 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    position: relative;
+}
+
+/* Decorative hearts background */
+.hearts-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hearts-bg .heart {
+    position: absolute;
+    font-size: clamp(20px, 5vw, 40px);
+    opacity: 0.3;
+    animation: float 15s infinite ease-in-out;
+}
+
+.hearts-bg .heart:nth-child(1) {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.hearts-bg .heart:nth-child(2) {
+    top: 20%;
+    right: 15%;
+    animation-delay: 2s;
+}
+
+.hearts-bg .heart:nth-child(3) {
+    bottom: 30%;
+    left: 20%;
+    animation-delay: 4s;
+}
+
+.hearts-bg .heart:nth-child(4) {
+    bottom: 20%;
+    right: 10%;
+    animation-delay: 6s;
+}
+
+.hearts-bg .heart:nth-child(5) {
+    top: 50%;
+    left: 5%;
+    animation-delay: 8s;
+}
+
+.hearts-bg .heart:nth-child(6) {
+    top: 60%;
+    right: 5%;
+    animation-delay: 10s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-30px) rotate(10deg);
+    }
 }
 
 .container {
@@ -21,6 +86,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
+    padding: 20px;
 }
 
 /* Envelope Styles */
@@ -30,7 +97,8 @@ body {
     height: 300px;
     cursor: pointer;
     transition: transform 0.3s ease;
-    max-width: 90vw;
+    max-width: min(90vw, 400px);
+    max-height: min(70vh, 300px);
 }
 
 .envelope:hover {
@@ -52,9 +120,9 @@ body {
 .envelope-body {
     width: 100%;
     height: 200px;
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-    border-radius: 0 0 10px 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff4d8d 50%, #ff1744 100%);
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 10px 40px rgba(255, 20, 147, 0.4);
     position: relative;
 }
 
@@ -80,11 +148,37 @@ body {
     height: 0;
     border-left: 200px solid transparent;
     border-right: 200px solid transparent;
-    border-top: 150px solid #ff5252;
+    border-top: 150px solid #ff1744;
     transform-origin: bottom;
     transition: transform 0.8s ease;
     position: relative;
     z-index: 2;
+}
+
+.heart-seal {
+    position: absolute;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+    z-index: 3;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+@media (max-width: 600px) {
+    .heart-seal {
+        font-size: clamp(25px, 6vw, 35px);
+        top: -90px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -108,15 +202,22 @@ body {
     transform: translateX(-50%) translateY(-100%);
     width: 350px;
     height: 250px;
-    max-width: 85vw;
-    max-height: 60vh;
-    background: linear-gradient(135deg, #fff 0%, #ffeef0 100%);
-    border-radius: 15px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    max-width: min(85vw, 350px);
+    max-height: min(60vh, 250px);
+    background: linear-gradient(135deg, #fff5f7 0%, #ffeef0 50%, #fff0f5 100%);
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(255, 20, 147, 0.3);
     padding: 30px;
     opacity: 0;
     transition: transform 0.8s ease, opacity 0.8s ease;
     z-index: 3;
+    cursor: pointer;
+    border: 3px solid #ffb3d9;
+}
+
+.card:hover {
+    box-shadow: 0 25px 60px rgba(255, 20, 147, 0.4);
+    transform: translateX(-50%) translateY(-25px) scale(1.02);
 }
 
 .envelope.opened .card {
@@ -131,15 +232,38 @@ body {
     justify-content: center;
     height: 100%;
     gap: clamp(15px, 4vw, 30px);
+    position: relative;
+}
+
+.instruction-text {
+    font-size: clamp(16px, 4vw, 20px);
+    color: #ff1493;
+    text-align: center;
+    font-weight: 600;
+    animation: fadeIn 0.8s ease 1s both, bounce 2s ease 2s infinite;
+    padding: 10px 20px;
+    background: rgba(255, 182, 193, 0.2);
+    border-radius: 20px;
+    border: 2px dashed #ff69b4;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 .question {
-    font-size: clamp(18px, 5vw, 28px);
-    color: #d63384;
+    font-size: clamp(20px, 5.5vw, 32px);
+    color: #ff1493;
     text-align: center;
     font-weight: bold;
-    animation: fadeIn 1s ease 0.5s both;
+    animation: fadeIn 0.8s ease both;
     padding: 0 10px;
+    text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.5);
 }
 
 @keyframes fadeIn {
@@ -175,8 +299,9 @@ body {
 }
 
 .btn-yes {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff1493 50%, #ff1744 100%);
     color: white;
+    box-shadow: 0 5px 20px rgba(255, 20, 147, 0.4);
 }
 
 .btn-yes:hover {
@@ -259,54 +384,83 @@ body {
 /* Responsive */
 @media (max-width: 600px) {
     .envelope {
-        width: min(300px, 85vw);
-        height: min(225px, 64vw);
+        width: min(320px, 90vw);
+        height: min(240px, 72vw);
     }
     
     .envelope-body {
-        height: min(150px, 43vw);
+        height: min(160px, 48vw);
+    }
+    
+    .envelope-top {
+        border-left-width: min(160px, 45vw);
+        border-right-width: min(160px, 45vw);
+        border-top-width: min(120px, 36vw);
     }
     
     .card {
-        width: min(280px, 80vw);
-        height: min(200px, 57vw);
-        padding: clamp(15px, 4vw, 20px);
+        width: min(300px, 88vw);
+        height: min(220px, 66vw);
+        padding: clamp(20px, 5vw, 25px);
     }
     
     .card-content {
-        gap: clamp(10px, 3vw, 20px);
+        gap: clamp(15px, 4vw, 25px);
     }
     
     .buttons {
-        gap: 10px;
+        gap: 12px;
+        width: 100%;
     }
     
     .btn {
-        min-width: 90px;
-        padding: 12px 25px;
+        min-width: 100px;
+        padding: 14px 28px;
+        font-size: clamp(16px, 4.5vw, 18px);
     }
 }
 
 @media (max-width: 400px) {
     .envelope {
-        width: min(280px, 90vw);
-        height: min(210px, 68vw);
+        width: min(280px, 92vw);
+        height: min(210px, 70vw);
+    }
+    
+    .envelope-body {
+        height: min(140px, 47vw);
+    }
+    
+    .envelope-top {
+        border-left-width: min(140px, 46vw);
+        border-right-width: min(140px, 46vw);
+        border-top-width: min(105px, 35vw);
     }
     
     .card {
-        width: min(260px, 85vw);
-        height: min(180px, 59vw);
-        padding: 15px;
+        width: min(260px, 90vw);
+        height: min(200px, 67vw);
+        padding: 18px;
+    }
+    
+    .card-content {
+        gap: 15px;
     }
     
     .buttons {
         flex-direction: column;
         width: 100%;
+        gap: 10px;
     }
     
     .btn {
         width: 100%;
-        max-width: 200px;
+        max-width: 220px;
+        padding: 14px 24px;
+    }
+    
+    .instruction-text {
+        font-size: 16px;
+        padding: 8px 16px;
     }
 }
 

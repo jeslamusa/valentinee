@@ -8,15 +8,28 @@
 </head>
 <body>
     <div class="container">
+        <!-- Decorative hearts in background -->
+        <div class="hearts-bg">
+            <span class="heart">💖</span>
+            <span class="heart">💕</span>
+            <span class="heart">💗</span>
+            <span class="heart">💝</span>
+            <span class="heart">💖</span>
+            <span class="heart">💕</span>
+        </div>
+        
         <div class="envelope" id="envelope">
             <div class="envelope-front">
-                <div class="envelope-top"></div>
+                <div class="envelope-top">
+                    <span class="heart-seal">💌</span>
+                </div>
                 <div class="envelope-body"></div>
             </div>
             <div class="card" id="card">
                 <div class="card-content">
-                    <h1 class="question">Will you be my Valentine?</h1>
-                    <div class="buttons" id="buttons">
+                    <div class="instruction-text" id="instructionText">Click the card 💝</div>
+                    <h1 class="question" id="question" style="display: none;">Will you be my Valentine?</h1>
+                    <div class="buttons" id="buttons" style="display: none;">
                         <button class="btn btn-yes" id="yesBtn">Yes 💕</button>
                         <button class="btn btn-no" id="noBtn">No</button>
                     </div>

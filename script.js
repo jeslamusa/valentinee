@@ -3,14 +3,30 @@ const card = document.getElementById('card');
 const yesBtn = document.getElementById('yesBtn');
 const noBtn = document.getElementById('noBtn');
 const flowersContainer = document.getElementById('flowersContainer');
+const instructionText = document.getElementById('instructionText');
+const question = document.getElementById('question');
+const buttons = document.getElementById('buttons');
 
 let isOpened = false;
+let cardClicked = false;
 
 // Open envelope on click
 envelope.addEventListener('click', () => {
     if (!isOpened) {
         envelope.classList.add('opened');
         isOpened = true;
+    }
+});
+
+// Show question when card is clicked
+card.addEventListener('click', () => {
+    if (isOpened && !cardClicked) {
+        cardClicked = true;
+        instructionText.style.display = 'none';
+        question.style.display = 'block';
+        buttons.style.display = 'flex';
+        question.style.animation = 'fadeIn 0.8s ease both';
+        buttons.style.animation = 'fadeIn 0.8s ease 0.3s both';
     }
 });
 

@@ -2,6 +2,6 @@ services:
   - type: web
     name: valentine-card
     env: static
-    buildCommand: ""
-    staticPublishPath: .
+    buildCommand: echo "No build needed"
+    staticPublishPath: /
 
